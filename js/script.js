@@ -1,7 +1,5 @@
 var slideIndex = 1;
 showSlides(slideIndex);
-var url = document.querySelector("div p a");
-console.log(url);
 
 function currentSlide(n) {
     showSlides(slideIndex = n);
@@ -13,9 +11,9 @@ function showSlides(n) {
     if (n > slides.length) {slideIndex = 1}    
     if (n < 1) {slideIndex = slides.length}
     for (var i = 0; i < slides.length; i++) {
-        slides[i].style.opacity = "0";  
+        slides[i].style.visibility  = "hidden";
     }
-    slides[slideIndex-1].style.opacity = "1";
+    slides[slideIndex-1].style.visibility = "visible";
 }
 
 document.getElementById("prev").onclick = function(){
@@ -26,4 +24,5 @@ document.getElementById("prev").onclick = function(){
 document.getElementById("next").onclick = function(){
   showSlides(slideIndex += 1);
   window.scrollTo(0, 0);
+  document.getElementById("prev").style.display  = "block";
 }
