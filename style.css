@@ -143,9 +143,17 @@ p a:hover {
     transform: translateX(-50%);
 }
 
-#prev {
+#next, #prev {
+    cursor: pointer;
+    color: white;
+    font-size: 2.25em;
+    user-select: none;
+    z-index: 2001;
+    position: fixed;
     top: 9px;
     display: none;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /*-------------------------------------*/
