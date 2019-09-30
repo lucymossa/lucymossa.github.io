@@ -100,10 +100,6 @@ p a {
     text-decoration: none;
 }
 
-p a:hover {
-    outline: 2px solid rgba(255, 255, 255, 1);
-}
-
 .row {
     width: 60%;
     display: flex;
