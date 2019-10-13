@@ -67,7 +67,7 @@ h1 {
     transform: translate(-50%, -50%);
 }
 
-#p1, #p2 {
+#p1, #p2, #p3, #p4 {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -100,6 +100,7 @@ p a {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 15px;
     text-decoration: none;
+    margin: 50px;
 }
 
 p a:hover {
@@ -122,7 +123,7 @@ p a:hover {
     align-self: center;
 }
   
-#p1 .column img {
+#p1 .column img, #p3 .column img {
     width: 50%;
     padding: 10px;
 }
@@ -167,6 +168,10 @@ p a:hover {
     p {
         font-size: 1.219em;
     }
+
+    p a {
+        margin: 20px;
+    }
       
     .row {
         width: 100%;
@@ -195,6 +200,11 @@ p a:hover {
         font-size: 0.75em;
         line-height: 1.5em;
     }
+
+    p a {
+        margin: 40px 0 0 0;
+        display: block;
+    }
     
     .row {
         width: 80%;
@@ -206,7 +216,7 @@ p a:hover {
         width: 100%;
     }
       
-    #p1 .column img {
+    #p1 .column img, #p3 .column img {
         width: 60%;
         padding: 7px 0;
     }
