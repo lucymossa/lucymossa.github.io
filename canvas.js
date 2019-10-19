@@ -1,5 +1,8 @@
+// Initial Setup
 var canvas = document.querySelector("canvas");
+var c = canvas.getContext("2d");
 
+//Push images out of frame
 var push = window.innerHeight;
 var rows = document.getElementsByClassName("row");
 
@@ -7,6 +10,7 @@ for (var i = 0; i < rows.length; i++) {
     rows[i].style.paddingTop = push + "px";
 }
 
+//Size Setup
 var height = Math.max(
     document.body.scrollHeight, document.documentElement.scrollHeight,
     document.body.offsetHeight, document.documentElement.offsetHeight,
@@ -15,30 +19,47 @@ var height = Math.max(
 canvas.width = window.innerWidth;
 canvas.height = height;
 
-var c = canvas.getContext("2d");
-
+//Variables
 var mouse = {
   x: undefined,
   y: undefined
 }
 
+var colours = [
+  '#FFFFFF',
+  '#808080',
+]
+
+// Event Listeners
 window.addEventListener('mousemove',
   function(event) {
     mouse.x = event.x;
     mouse.y = event.y;
 })
 
-function Circle(x, y, dx, dy, radius) {
+//Utility Functions
+function randomColour(colors){
+  return colours[Math.floor(Math.random() * colours.length)];
+}
+
+//Objects
+function Circle(x, y, dx, dy, radius, colour) {
   this.x = x;
   this.y = y;
   this.dx = dx;
   this.dy = dy;
   this.radius = radius;
+  this.colour = colour;
+  this.blur = 0;
+  this.opacity = 0.6;
 
   this.draw = function() {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    c.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    c.globalAlpha = this.opacity;
+    c.shadowColor = '#FFFFE6';
+    c.shadowBlur = this.blur;
+    c.fillStyle = this.colour;
     c.fill();
   }
 
@@ -52,6 +73,7 @@ function Circle(x, y, dx, dy, radius) {
     this.x += this.dx;
     this.y += this.dy;
 
+    //Mouse collision detection
     if (mouse.x - this.x < 100 && mouse.x - this.x > -100
         && mouse.y - this.y < 100 && mouse.y - this.y > -100) {
           let ddx = this.x - mouse.x;
@@ -60,11 +82,19 @@ function Circle(x, y, dx, dy, radius) {
           let dist = 75 / Math.sqrt(ddx * ddx + ddy * ddy);
           this.x += Math.cos(angle) * dist;
           this.y += Math.sin(angle) * dist;
+          this.blur = 10;
+          this.opacity = 1;
+          this.colour = '#FFFFE6';
+    } else {
+      this.blur = 0;
+      this.opacity = 0.6;
+      this.colour = colour;
     }
     this.draw();
   }
 }
 
+//Implementation
 var circleArray = [];
 
 for (var i = 0; i < 500; i++) {
@@ -73,9 +103,11 @@ for (var i = 0; i < 500; i++) {
   var y = Math.random() * (height - radius * 2) + radius;
   var dx = (Math.random() - 0.5) * 0.5;
   var dy = (Math.random() - 0.5) * 0.5;
-  circleArray.push(new Circle(x, y, dx, dy, radius));
+  var colour = randomColour(colours);
+  circleArray.push(new Circle(x, y, dx, dy, radius, colour));
 }
 
+//Animation Loop
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, innerWidth, height);
