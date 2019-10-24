@@ -99,7 +99,7 @@ p a {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 15px;
     text-decoration: none;
-    margin: 50px;
+    margin: 0 50px;
 }
 
 p a:hover {
