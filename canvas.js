@@ -1,23 +1,16 @@
 // Initial Setup
-var canvas = document.querySelector("canvas");
-var c = canvas.getContext("2d");
-
-//Push images out of frame
-var push = window.innerHeight;
-var rows = document.getElementsByClassName("row");
-
-for (var i = 0; i < rows.length; i++) {
-    rows[i].style.paddingTop = push + "px";
-}
+var canvas = document.querySelector('canvas');
+var c = canvas.getContext('2d');
 
 //Size Setup
-var height = Math.max(
-    document.body.scrollHeight, document.documentElement.scrollHeight,
-    document.body.offsetHeight, document.documentElement.offsetHeight,
-    document.body.clientHeight, document.documentElement.clientHeight);
+var height = document.documentElement.scrollHeight;
+var width = window.innerWidth;
 
-canvas.width = window.innerWidth;
+canvas.width = width;
 canvas.height = height;
+
+// CSS Styling
+canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
 
 //Variables
 var mouse = {
@@ -34,7 +27,18 @@ var colours = [
 window.addEventListener('mousemove',
   function(event) {
     mouse.x = event.x;
-    mouse.y = event.y;
+    mouse.y = event.y + document.documentElement.scrollTop + document.documentElement.offsetTop;
+})
+
+window.addEventListener('resize',
+  function(event) {
+    canvas.width = window.innerWidth;
+    width = window.innerWidth;
+    
+    canvas.height = window.innerHeight;
+    height = window.innerHeight;
+
+    c.clearRect(0, 0, width, height);
 })
 
 //Utility Functions
@@ -64,7 +68,7 @@ function Circle(x, y, dx, dy, radius, colour) {
   }
 
   this.update = function() {
-    if (this.x + this. radius > window.innerWidth || this.x - radius < 0) {
+    if (this.x + this.radius > width || this.x - radius < 0) {
       this.dx = -this.dx;
     }
     if (this.y + this. radius > height || this.y - radius < 0) {
@@ -73,7 +77,7 @@ function Circle(x, y, dx, dy, radius, colour) {
     this.x += this.dx;
     this.y += this.dy;
 
-    //Mouse collision detection
+    //Mouse Collision Detection
     if (mouse.x - this.x < 100 && mouse.x - this.x > -100
         && mouse.y - this.y < 100 && mouse.y - this.y > -100) {
           let ddx = this.x - mouse.x;
@@ -97,9 +101,9 @@ function Circle(x, y, dx, dy, radius, colour) {
 //Implementation
 var circleArray = [];
 
-for (var i = 0; i < 500; i++) {
+for (var i = 0; i < 350; i++) {
   var radius = Math.random() * 3;
-  var x = Math.random() * (innerWidth - radius * 2) + radius;
+  var x = Math.random() * (width - radius * 2) + radius;
   var y = Math.random() * (height - radius * 2) + radius;
   var dx = (Math.random() - 0.5) * 0.5;
   var dy = (Math.random() - 0.5) * 0.5;
@@ -110,7 +114,7 @@ for (var i = 0; i < 500; i++) {
 //Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-  c.clearRect(0, 0, innerWidth, height);
+  c.clearRect(0, 0, width, height);
 
 for (var i = 0; i < circleArray.length; i++) {
   circleArray[i].update();
